@@ -15,7 +15,7 @@ export default function LandingPage() {
     }, 1500);
     if (clickCountRef.current >= 5) {
       clickCountRef.current = 0;
-      navigate({ to: "/secret" });
+      navigate({ to: "/radio" });
       return;
     }
     setIsEntering(true);

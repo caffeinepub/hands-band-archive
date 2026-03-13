@@ -2,10 +2,13 @@ import { Outlet, createRootRoute, createRoute } from "@tanstack/react-router";
 import FilmGrain from "./components/FilmGrain";
 import Navigation from "./components/Navigation";
 import ArchivePage from "./pages/Archive";
+import CaseFilePage from "./pages/CaseFile";
+import CasesIndexPage from "./pages/CasesIndex";
 import DownloadsPage from "./pages/Downloads";
 import HomePage from "./pages/Home";
 import LandingPage from "./pages/Landing";
 import MusicPage from "./pages/Music";
+import RadioPage from "./pages/Radio";
 import SecretPage from "./pages/Secret";
 import ShowsPage from "./pages/Shows";
 import VideosPage from "./pages/Videos";
@@ -27,6 +30,13 @@ const landingRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/",
   component: LandingPage,
+});
+
+// Radio (standalone, no nav)
+const radioRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/radio",
+  component: RadioPage,
 });
 
 // Layout with nav
@@ -91,8 +101,21 @@ const secretRoute = createRoute({
   component: SecretPage,
 });
 
+const casesRoute = createRoute({
+  getParentRoute: () => layoutRoute,
+  path: "/cases",
+  component: CasesIndexPage,
+});
+
+const caseFileRoute = createRoute({
+  getParentRoute: () => layoutRoute,
+  path: "/case/$id",
+  component: CaseFilePage,
+});
+
 export const routeTree = rootRoute.addChildren([
   landingRoute,
+  radioRoute,
   layoutRoute.addChildren([
     homeRoute,
     musicRoute,
@@ -102,5 +125,7 @@ export const routeTree = rootRoute.addChildren([
     wallRoute,
     downloadsRoute,
     secretRoute,
+    casesRoute,
+    caseFileRoute,
   ]),
 ]);
