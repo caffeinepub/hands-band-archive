@@ -1,0 +1,292 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --radius: 0rem;
+    /* Dark archive theme - always dark */
+    --background: 0.08 0.002 60;
+    --foreground: 0.92 0.01 85;
+    --card: 0.12 0.004 60;
+    --card-foreground: 0.88 0.01 85;
+    --popover: 0.12 0.004 60;
+    --popover-foreground: 0.88 0.01 85;
+    --primary: 0.88 0.01 85;
+    --primary-foreground: 0.08 0.002 60;
+    --secondary: 0.18 0.006 60;
+    --secondary-foreground: 0.75 0.01 85;
+    --muted: 0.16 0.003 60;
+    --muted-foreground: 0.52 0.005 60;
+    --accent: 0.65 0.08 240;
+    --accent-foreground: 0.92 0.01 85;
+    --destructive: 0.55 0.18 20;
+    --destructive-foreground: 0.92 0.01 85;
+    --border: 0.25 0.005 60;
+    --input: 0.2 0.004 60;
+    --ring: 0.65 0.08 240;
+    --chart-1: 0.65 0.08 240;
+    --chart-2: 0.85 0.12 85;
+    --chart-3: 0.80 0.06 10;
+    --chart-4: 0.52 0.005 60;
+    --chart-5: 0.55 0.18 20;
+    --sidebar: 0.10 0.003 60;
+    --sidebar-foreground: 0.88 0.01 85;
+    --sidebar-primary: 0.88 0.01 85;
+    --sidebar-primary-foreground: 0.08 0.002 60;
+    --sidebar-accent: 0.16 0.003 60;
+    --sidebar-accent-foreground: 0.75 0.01 85;
+    --sidebar-border: 0.25 0.005 60;
+    --sidebar-ring: 0.65 0.08 240;
+    /* Custom band tokens */
+    --band-yellow: 0.85 0.12 85;
+    --band-pink: 0.80 0.06 10;
+    --band-blue: 0.65 0.08 240;
+    --band-red: 0.55 0.18 20;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Courier New', Courier, monospace;
+    -webkit-font-smoothing: antialiased;
+    cursor: crosshair;
+  }
+
+  ::selection {
+    background: oklch(0.65 0.08 240 / 0.3);
+    color: oklch(0.92 0.01 85);
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: oklch(0.08 0.002 60);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: oklch(0.30 0.005 60);
+  }
+}
+
+/* === FILM GRAIN === */
+.grain-overlay {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  opacity: 0.055;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 128px 128px;
+  mix-blend-mode: overlay;
+}
+
+/* === SCAN LINES === */
+.scan-lines {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    oklch(0 0 0 / 0.03) 2px,
+    oklch(0 0 0 / 0.03) 4px
+  );
+}
+
+/* === GLITCH ANIMATION === */
+@keyframes glitch {
+  0%, 90%, 100% { transform: translate(0, 0); }
+  91% { transform: translate(-2px, 1px); clip-path: inset(20% 0 30% 0); }
+  93% { transform: translate(2px, -1px); clip-path: inset(60% 0 10% 0); }
+  95% { transform: translate(-1px, 0); clip-path: inset(40% 0 50% 0); }
+  97% { transform: translate(1px, 1px); }
+}
+
+.glitch {
+  animation: glitch 6s infinite;
+  position: relative;
+}
+
+.glitch::before {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: oklch(var(--band-blue));
+  clip-path: inset(40% 0 50% 0);
+  animation: glitch 6s infinite reverse;
+  opacity: 0.7;
+}
+
+/* === FLICKER === */
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  93% { opacity: 0.85; }
+  94% { opacity: 1; }
+  96% { opacity: 0.92; }
+  98% { opacity: 1; }
+}
+
+.flicker {
+  animation: flicker 4s infinite;
+}
+
+/* === PAGE FADE IN === */
+@keyframes pageIn {
+  from { opacity: 0; filter: brightness(0.7); }
+  to { opacity: 1; filter: brightness(1); }
+}
+
+.page-enter {
+  animation: pageIn 0.4s ease-out forwards;
+}
+
+/* === TYPEWRITER BLINK === */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.cursor-blink::after {
+  content: '_';
+  animation: blink 1.2s infinite;
+}
+
+/* === HANDWRITTEN STYLE === */
+.handwritten {
+  font-family: 'Caveat', cursive;
+  font-size: 1.1rem;
+  line-height: 1.4;
+}
+
+/* === STAMP EFFECT === */
+.stamp {
+  display: inline-block;
+  border: 2px solid oklch(var(--band-red));
+  color: oklch(var(--band-red));
+  padding: 2px 8px;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: bold;
+  opacity: 0.85;
+  font-family: 'Courier New', monospace;
+}
+
+/* === DASHED BORDER PAPER CARD === */
+.evidence-card {
+  background: oklch(var(--card));
+  border: 1px dashed oklch(var(--border));
+  position: relative;
+  padding: 1.25rem;
+  box-shadow:
+    2px 3px 8px oklch(0 0 0 / 0.5),
+    inset 0 0 30px oklch(0 0 0 / 0.15);
+}
+
+.evidence-card::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border: 1px solid oklch(var(--border) / 0.3);
+  pointer-events: none;
+}
+
+/* === VHS SCANLINES === */
+.vhs-overlay {
+  position: relative;
+  overflow: hidden;
+}
+
+.vhs-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 3px,
+    oklch(0 0 0 / 0.12) 3px,
+    oklch(0 0 0 / 0.12) 4px
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* === CASSETTE LOADING === */
+@keyframes spinReel {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.spin-reel {
+  animation: spinReel 1.5s linear infinite;
+}
+
+/* === PIN PSEUDO === */
+.pinned::after {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: oklch(0.6 0.15 0);
+  box-shadow: 0 2px 4px oklch(0 0 0 / 0.5);
+  z-index: 10;
+}
+
+/* === NAV LINK STYLE === */
+.nav-link {
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: oklch(0.45 0.005 60);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.2s;
+  padding: 2px 4px;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: oklch(0.88 0.01 85);
+}
+
+/* === REDACTION BAR === */
+.redacted {
+  background: oklch(0.08 0 0);
+  color: transparent;
+  user-select: none;
+  border-radius: 2px;
+  display: inline-block;
+  height: 1.1em;
+  vertical-align: middle;
+}
+
+/* === NOISE BG === */
+.noise-bg {
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"),
+    linear-gradient(oklch(0.08 0.002 60), oklch(0.08 0.002 60));
+}
+
+/* === TYPE TAG === */
+.type-tag {
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 1px 6px;
+  border: 1px solid;
+  font-family: 'Courier New', monospace;
+}
