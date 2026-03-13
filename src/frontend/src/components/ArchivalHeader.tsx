@@ -7,7 +7,7 @@ export default function ArchivalHeader({ imageSrc }: ArchivalHeaderProps) {
   return (
     <div
       className="w-full"
-      style={{ marginTop: "64px", aspectRatio: "1/1", overflow: "hidden" }}
+      style={{ marginTop: "64px", height: "280px", overflow: "hidden" }}
     >
       <img
         src={imageSrc}
