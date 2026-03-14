@@ -1,32 +1,36 @@
-# Hands - Band Archive
+# Hands - Band Archive (Ultra Low-Tech Version)
 
 ## Current State
-Site has all core pages: Landing, Home (case file cards), Music, Videos, Archive, Shows, Wall, Downloads, Secret. Core aesthetic established: dark bg, monospace fonts, film grain, scan lines, glitch, evidence cards, VHS, archival headers.
+Full band archive site with investigation board, case files, evidence locker, secret radio, theatre poster nav, and community wall. Visually complex with multiple pages and interactions.
 
 ## Requested Changes (Diff)
 
 ### Add
-- Evidence Locker section on Home: interactive shelf of clickable objects (cassettes, polaroids, envelopes, guitar picks, notebooks, tickets, folders) revealing archive content. Hover reveals handwritten notes.
-- Vintage Theatre Poster Navigation: replace current nav with 1920s theatre poster/playbill style — distressed, slightly crooked, faded poster cards pinned to a backstage wall.
-- Lost Recordings Radio at /radio: hidden underground radio station with analog interface, cassette deck player, flickering lights, streaming fake metadata ("Rehearsal Tape — 2019", "Van Recording — Somewhere in Wales"). Easter egg from handprint.
-- Individual Case File pages /case/001-004: full police dossier per member with NAME, ALIAS, INSTRUMENT, LAST SEEN, KNOWN ASSOCIATES, CHARGES, archive artifacts, confidential notes, hidden triggers.
-- Case Files index at /cases showing folder cards linking to each member.
+- New single-page landing experience: ultra low-tech, stripped-back, almost brutalist
+- A thick black border rectangle centered on the page — the main visual focus
+- Inside the black border: a QR code (SVG-drawn, static, pointing to the site URL or placeholder)
+- Below the QR code inside the border: large text "THE HAND" in typewriter/monospace font
+- Smaller text below that listing band member names
+- Click interaction on the black border: reveals a spherical/radial word cloud of navigation links that float outward in a circular/orbital pattern around the border
+- Links in the sphere include: Music, Videos, Archive, Shows, Community, Downloads, Cases, Radio
+- Ultra low-tech aesthetic: white or off-white background, black text, monospace font throughout, zero gradients, zero shadows, minimal decoration
+- Navigation links in spherical layout use plain text, slightly scattered in orbit positions
+- Clicking a link navigates to the relevant section/route
+- A small "[click border]" hint text below the border before it's been clicked
+- Once clicked, links appear and hint changes to "[click again to close]"
+- Entire page has a raw HTML/early-internet feel: courier font, minimal color, no images
 
 ### Modify
-- Home page: add Evidence Locker section below existing case file cards.
-- Navigation: overhaul to theatre poster style.
-- Landing: change easter egg from /secret to /radio.
-- RouteTree: add /radio, /cases, /case/$id routes.
+- This is effectively a new standalone page/app variant — keep existing routes but replace the App.tsx entry with this new landing
 
 ### Remove
-- Nothing
+- Nothing removed from existing routes; this replaces only the default landing view
 
 ## Implementation Plan
-1. Update Navigation.tsx to theatre poster card style
-2. Create EvidenceLocker component with interactive shelf items
-3. Add EvidenceLocker to Home.tsx
-4. Create Radio.tsx (Lost Recordings Radio)
-5. Create CasesIndex.tsx
-6. Create CaseFile.tsx (parameterized dossier)
-7. Update routeTree.tsx with new routes
-8. Update Landing.tsx easter egg to navigate to /radio
+1. Replace App.tsx landing/home route with new UltraLowTechLanding component
+2. Build centered black-border box with SVG QR code inside
+3. Add "THE HAND" + band member names text inside border
+4. Implement click-to-reveal spherical word cloud using CSS absolute positioning in a radial pattern
+5. Animate link appearance with simple CSS transitions (fade + scale, no fancy libs)
+6. Apply global ultra-low-tech styles: white bg, black text, Courier/monospace, no decorations
+7. Wire navigation links to existing routes
